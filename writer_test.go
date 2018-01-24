@@ -856,6 +856,31 @@ func ExampleMasterPlaylist_String() {
 	// chunklist2.m3u8
 }
 
+// Create new master playlist
+// Add media playlist
+// Encode structures to HLS
+func ExampleMasterPlaylistNoProgramButAvgBandwidth_String() {
+	m := NewMasterPlaylist()
+	p, _ := NewMediaPlaylist(3, 5)
+	for i := 0; i < 5; i++ {
+		p.Append(fmt.Sprintf("test%d.ts", i), 5.0, "")
+	}
+	m.Append("chunklist1.m3u8", p, VariantParams{Bandwidth: 1500000, AvgBandwidth: 1500000, Resolution: "576x480"})
+	m.Append("chunklist2.m3u8", p, VariantParams{Bandwidth: 1500000, AvgBandwidth: 1500000, Resolution: "576x480"})
+	m.Append("iframe1.m3u8", p, VariantParams{Bandwidth: 1500000, AvgBandwidth: 1500000, Resolution: "576x480", Iframe: true})
+	m.Append("iframe2.m3u8", p, VariantParams{Bandwidth: 1500000, AvgBandwidth: 1500000, Resolution: "576x480", Iframe: true})
+	fmt.Printf("%s", m)
+	// Output:
+	// #EXTM3U
+	// #EXT-X-VERSION:3
+	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480
+	// chunklist1.m3u8
+	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480
+	// chunklist2.m3u8
+	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe1.m3u8"
+	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe2.m3u8"
+}
+
 func ExampleMediaPlaylist_Segments_scte35_oatcls() {
 	f, _ := os.Open("sample-playlists/media-playlist-with-oatcls-scte35.m3u8")
 	p, _, _ := DecodeFrom(bufio.NewReader(f), true)

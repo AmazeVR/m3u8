@@ -285,6 +285,13 @@ func decodeLineOfMasterPlaylist(p *MasterPlaylist, state *decodingState, line st
 					return err
 				}
 				state.variant.Bandwidth = uint32(val)
+			case "AVERAGE-BANDWIDTH":
+				var val int
+				val, err = strconv.Atoi(v)
+				if strict && err != nil {
+					return err
+				}
+				state.variant.AvgBandwidth = uint32(val)
 			case "CODECS":
 				state.variant.Codecs = v
 			case "RESOLUTION":
@@ -331,6 +338,13 @@ func decodeLineOfMasterPlaylist(p *MasterPlaylist, state *decodingState, line st
 					return err
 				}
 				state.variant.Bandwidth = uint32(val)
+			case "AVERAGE-BANDWIDTH":
+				var val int
+				val, err = strconv.Atoi(v)
+				if strict && err != nil {
+					return err
+				}
+				state.variant.AvgBandwidth = uint32(val)
 			case "CODECS":
 				state.variant.Codecs = v
 			case "RESOLUTION":

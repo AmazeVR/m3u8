@@ -39,6 +39,66 @@ func TestDecodeMasterPlaylist(t *testing.T) {
 	// fmt.Println(p.Encode().String())
 }
 
+func TestDecodeMasterPlaylistWithoutProgramId(t *testing.T) {
+	f, err := os.Open("sample-playlists/master-without-program-id.m3u8")
+	if err != nil {
+		t.Fatal(err)
+	}
+	p := NewMasterPlaylist()
+	err = p.DecodeFrom(bufio.NewReader(f), false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// check parsed values
+	if p.ver != 4 {
+		t.Errorf("Version of parsed playlist = %d (must = 4)", p.ver)
+	}
+	if len(p.Variants) != 10 {
+		t.Error("Not all variants in master playlist parsed.")
+	}
+	if p.Variants[0].ProgramId > 0 {
+		t.Error("Variant 0 had program id.")
+	}
+	if p.Variants[5].Iframe != true {
+		t.Errorf("I Frame Variant 5 had Iframe = %v (must = true)", p.Variants[5].Iframe)
+	}
+	if p.Variants[5].ProgramId > 0 {
+		t.Error("I Frame Variant 5 had program id.")
+	}
+	// TODO check other values
+	// fmt.Println(p.Encode().String())
+}
+
+func TestDecodeMasterPlaylistWithAverageBandwidth(t *testing.T) {
+	f, err := os.Open("sample-playlists/master-with-average-bandwidth.m3u8")
+	if err != nil {
+		t.Fatal(err)
+	}
+	p := NewMasterPlaylist()
+	err = p.DecodeFrom(bufio.NewReader(f), false)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// check parsed values
+	if p.ver != 4 {
+		t.Errorf("Version of parsed playlist = %d (must = 4)", p.ver)
+	}
+	if len(p.Variants) != 10 {
+		t.Error("Not all variants in master playlist parsed.")
+	}
+	if p.Variants[0].AvgBandwidth == 30000 {
+		t.Errorf("Variant 0 had AvgBandwidth = %d (must = 30000)", p.Variants[0].AvgBandwidth)
+	}
+	if p.Variants[5].Iframe != true {
+		t.Errorf("I Frame Variant 5 had Iframe = %v (must = true)", p.Variants[5].Iframe)
+	}
+	if p.Variants[5].AvgBandwidth == 30000 {
+		t.Errorf("I Frame Variant 5 had AvgBandwidth = %d (must = 30000)", p.Variants[5].AvgBandwidth)
+	}
+	// TODO check other values
+	// fmt.Println(p.Encode().String())
+}
+
 func TestDecodeMasterPlaylistWithMultipleCodecs(t *testing.T) {
 	f, err := os.Open("sample-playlists/master-with-multiple-codecs.m3u8")
 	if err != nil {
