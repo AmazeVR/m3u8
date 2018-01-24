@@ -846,6 +846,8 @@ func ExampleMasterPlaylist_String() {
 	}
 	m.Append("chunklist1.m3u8", p, VariantParams{ProgramId: 123, Bandwidth: 1500000, Resolution: "576x480"})
 	m.Append("chunklist2.m3u8", p, VariantParams{ProgramId: 123, Bandwidth: 1500000, Resolution: "576x480"})
+	m.Append("iframe1.m3u8", p, VariantParams{ProgramId: 123, Bandwidth: 1500000, Resolution: "576x480", Iframe: true})
+	m.Append("iframe2.m3u8", p, VariantParams{ProgramId: 123, Bandwidth: 1500000, Resolution: "576x480", Iframe: true})
 	fmt.Printf("%s", m)
 	// Output:
 	// #EXTM3U
@@ -854,6 +856,8 @@ func ExampleMasterPlaylist_String() {
 	// chunklist1.m3u8
 	// #EXT-X-STREAM-INF:PROGRAM-ID=123,BANDWIDTH=1500000,RESOLUTION=576x480
 	// chunklist2.m3u8
+	// #EXT-X-I-FRAME-STREAM-INF:PROGRAM-ID=123,BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe1.m3u8"
+	// #EXT-X-I-FRAME-STREAM-INF:PROGRAM-ID=123,BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe2.m3u8"
 }
 
 // Create new master playlist
@@ -877,8 +881,8 @@ func ExampleMasterPlaylistNoProgramButAvgBandwidth_String() {
 	// chunklist1.m3u8
 	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480
 	// chunklist2.m3u8
-	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe1.m3u8"
-	// #EXT-X-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe2.m3u8"
+	// #EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe1.m3u8"
+	// #EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=1500000,AVERAGE-BANDWIDTH=1500000,RESOLUTION=576x480,URI="iframe2.m3u8"
 }
 
 func ExampleMediaPlaylist_Segments_scte35_oatcls() {

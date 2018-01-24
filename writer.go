@@ -151,7 +151,7 @@ func (p *MasterPlaylist) Encode() *bytes.Buffer {
 				p.buf.WriteString(",BANDWIDTH=")
 				p.buf.WriteString(strconv.FormatUint(uint64(pl.Bandwidth), 10))
 			} else {
-				p.buf.WriteString("#EXT-X-STREAM-INF:BANDWIDTH=")
+				p.buf.WriteString("#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=")
 				p.buf.WriteString(strconv.FormatUint(uint64(pl.Bandwidth), 10))
 			}
 			if pl.AvgBandwidth > 0 {
