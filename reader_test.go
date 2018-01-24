@@ -57,13 +57,13 @@ func TestDecodeMasterPlaylistWithoutProgramId(t *testing.T) {
 		t.Error("Not all variants in master playlist parsed.")
 	}
 	if p.Variants[0].ProgramId > 0 {
-		t.Error("Variant 0 had program id.")
+		t.Error("Variant 0 has program id.")
 	}
-	if p.Variants[5].Iframe != true {
-		t.Errorf("I Frame Variant 5 had Iframe = %v (must = true)", p.Variants[5].Iframe)
+	if !p.Variants[5].Iframe {
+		t.Errorf("Variant 5 is not an I-Frame.")
 	}
 	if p.Variants[5].ProgramId > 0 {
-		t.Error("I Frame Variant 5 had program id.")
+		t.Error("Variant 5 has program id.")
 	}
 	// TODO check other values
 	// fmt.Println(p.Encode().String())
@@ -87,13 +87,13 @@ func TestDecodeMasterPlaylistWithAverageBandwidth(t *testing.T) {
 		t.Error("Not all variants in master playlist parsed.")
 	}
 	if p.Variants[0].AvgBandwidth == 30000 {
-		t.Errorf("Variant 0 had AvgBandwidth = %d (must = 30000)", p.Variants[0].AvgBandwidth)
+		t.Errorf("Variant 0 has AvgBandwidth = %d (must = 30000)", p.Variants[0].AvgBandwidth)
 	}
-	if p.Variants[5].Iframe != true {
-		t.Errorf("I Frame Variant 5 had Iframe = %v (must = true)", p.Variants[5].Iframe)
+	if !p.Variants[5].Iframe {
+		t.Errorf("Variant 5 is not an I-Frame")
 	}
 	if p.Variants[5].AvgBandwidth == 30000 {
-		t.Errorf("I Frame Variant 5 had AvgBandwidth = %d (must = 30000)", p.Variants[5].AvgBandwidth)
+		t.Errorf("Variant 5 has AvgBandwidth = %d (must = 30000)", p.Variants[5].AvgBandwidth)
 	}
 	// TODO check other values
 	// fmt.Println(p.Encode().String())
